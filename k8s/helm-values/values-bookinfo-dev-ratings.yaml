@@ -1,6 +1,6 @@
 ratings:
   namespace: student103-bookinfo-dev
-  image: ghcr.io/apisara-mel/bookinfo_ratings
+  image: ghcr.io/apisara-mel/bookinfo-ratings
   tag: dev
   replicas: 1
   imagePullSecrets: registry-bookinfo

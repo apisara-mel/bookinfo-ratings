@@ -1,6 +1,6 @@
 ratings:
   namespace: student103-bookinfo-uat
-  image: ghcr.io/apisara-mel/bookinfo_ratings
+  image: ghcr.io/apisara-mel/bookinfo-ratings
   tag: uat
   replicas: 1
   imagePullSecrets: registry-bookinfo
