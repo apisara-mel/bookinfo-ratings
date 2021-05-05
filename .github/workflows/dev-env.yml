@@ -13,7 +13,7 @@ jobs:
       - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - run: docker push ghcr.io/apisara-mel/bookinfo-ratings:dev
 
-        deploy:
+  deploy:
     needs: build    
     runs-on: ubuntu-20.04
     steps:
