@@ -1,0 +1,41 @@
+name: uat-env
+on:
+  push:
+    branches:
+      - uat
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - run: docker build -t ghcr.io/apisara-mel/bookinfo-ratings:uat .
+      - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - run: docker push ghcr.io/apisara-mel/bookinfo-ratings:uat
+
+  deploy:
+    needs: build    
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: get-credentials
+        uses: google-github-actions/get-gke-credentials@main
+        with:
+          cluster_name: k8s
+          location: asia-southeast1-a
+          credentials: ${{ secrets.GKE_CREDENTIALS }}
+      - name: deploy
+        uses: deliverybot/helm@v1
+        with:
+          helm: helm3
+          release: bookinfo-uat-ratings
+          namespace: student103-bookinfo-uat
+          chart: k8s/helm
+          value-files: k8s/helm-values/values-bookinfo-uat-ratings.yaml
+          values: |
+            {
+              "extraEnv": {
+                "COMMIT_SHA": "${{ github.sha }}"
+              }
+            }
