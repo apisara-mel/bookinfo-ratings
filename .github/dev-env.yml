@@ -29,7 +29,7 @@ jobs:
         uses: deliverybot/helm@v1
         with:
           helm: helm3
-          release: bookinfo-uat-ratings
+          release: bookinfo-dev-ratings
           namespace: student103-bookinfo-dev
           chart: k8s/helm
           value-files: k8s/helm-values/values-bookinfo-dev-ratings.yaml
